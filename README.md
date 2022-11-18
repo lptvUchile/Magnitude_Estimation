@@ -8,7 +8,7 @@ This repository contains the codes of: “End-to-End LSTM-Based Earthquake Magni
 --------------
 ## Description
 <p align="justify"> 
-The model proposed is an end-to-end DNN based on long short-term memory (LSTM) is presented to address the problem of earthquake magnitude estimation for earthquake early warning (EEW) and tsunami early warning (TW) purposes using a seismic station.
+The model is an end-to-end LSTM to address the problem of earthquake magnitude estimation for earthquake early warning (EEW) and tsunami early warning (TW) purposes using a seismic station.
   
  
 
