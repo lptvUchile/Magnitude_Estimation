@@ -19,20 +19,15 @@ conda env create -f env_magnitude.yml
 
 --------------
 ## Tutorial
-  1) Download the database, download_database.py, which is located in the 'data' folder. It is also available at the [link]([[https://www.google.com](https://drive.google.com/file/d/1dheCE8lLGiZ-aJZRl0wBHN9kaCEYYxPy/view?usp=share_link)])
-  2) To train the algorithm it is necessary to run train.py
-  3) To test a database, you will need to run test.py
-    3.1) In case you want to test only one trace, it's possible to use test_magnitude_estimation.py
+* Download the database, download_database.py, which is located in the 'data' folder. It is also available at the [link]([[https://www.google.com](https://drive.google.com/file/d/1dheCE8lLGiZ-aJZRl0wBHN9kaCEYYxPy/view?usp=share_link)])
+* To train the algorithm it is necessary to run train.py
+* To test a database, you will need to run test.py
+    ** In case you want to test only one trace, it's possible to use test_magnitude_estimation.py
   
   
   
   
   
-
-  
-  
-  
-link database = 
 
 
 
