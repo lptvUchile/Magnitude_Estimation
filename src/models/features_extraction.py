@@ -102,6 +102,13 @@ def function_features_extration(subset):
                 if sac_k[0].stats.channel[-1] =='Z':
                     
                     if conjunto == 'test': 
+                        magnitud_por_evento.append([lista_eventos[i],estaciones[i],float(sac_k[0].stats.sac.mag)])
+                        lat,lon, depth,dist = sac_k[0].stats.sac.evla,sac_k[0].stats.sac.evlo,sac_k[0].stats.sac.evdp, sac_k[0].stats.sac.dist                
+                        locacion_por_evento['Latitud'].append(lat)
+                        locacion_por_evento['Longitud'].append(lon)
+                        locacion_por_evento['Profundidad'].append(depth) 
+                        locacion_por_evento['Distancia'].append(dist) 
+                        locacion_por_evento['Evento'].append(lista_eventos[i]) 
                         estoy_en_Z = 1                        
                     elif conjunto == 'train' or conjunto == 'val':
                         magnitud_por_evento.append([lista_eventos[i],float(sac_k[0].stats.sac.mag)])                    
@@ -265,6 +272,13 @@ def function_features_extration(subset):
             locacion_por_evento['Profundidad']= list(np.array(locacion_por_evento['Profundidad'])[ind_random])
             locacion_por_evento['Evento']= list(np.array(locacion_por_evento['Evento'])[ind_random])
             
+        if conjunto == 'test':
+            magnitud_por_evento = np.array(magnitud_por_evento)[ind_random]
+            locacion_por_evento['Distancia']= list(np.array(locacion_por_evento['Distancia'])[ind_random])
+            locacion_por_evento['Longitud']= list(np.array(locacion_por_evento['Longitud'])[ind_random])
+            locacion_por_evento['Latitud']= list(np.array(locacion_por_evento['Latitud'])[ind_random])
+            locacion_por_evento['Profundidad']= list(np.array(locacion_por_evento['Profundidad'])[ind_random])
+            locacion_por_evento['Evento']= list(np.array(locacion_por_evento['Evento'])[ind_random])         
         
                 
         if not os.path.isdir(feat_out):
@@ -279,6 +293,8 @@ def function_features_extration(subset):
             
             if conjunto == 'train' or conjunto =='val':
                 print('The target were saved')
+                np.save(feat_out+'magnitude_'+conjunto +'.npy', magnitud_por_evento)
+            if conjunto == 'test':
                 np.save(feat_out+'magnitude_'+conjunto +'.npy', magnitud_por_evento)                   
         else:
             print('The features were not saved')
