@@ -33,6 +33,7 @@ path_root =  os.getcwd()
 path_feat =  "../../data/features/"
 path_feat_in_test_temporal = path_feat + 'feat_temporal_test_magnitude.npy'
 path_feat_in_test_global = path_feat + 'feat_global_test_magnitude.npy'
+path_mag_real_test = path_feat + 'magnitude_test.npy'
 
 #Path where the model was saved
 path_salida_modelo = '../../models/'
@@ -80,9 +81,9 @@ class MyBatchGenerator(Sequence):
 feat_in_test_temporal = np.load(path_feat_in_test_temporal, allow_pickle=True)
 feat_in_test_global = np.load(path_feat_in_test_global, allow_pickle=True)
 
-#mag_real_test = np.load(path_mag_real_test)
-#id_test = mag_real_test[:,0]
-#mag_real_test = np.array([mag_real_test[i,1] for i in range(len(mag_real_test))],dtype=float)
+mag_real_test = np.load(path_mag_real_test)
+id_test = mag_real_test[:,0]
+mag_real_test = np.array([mag_real_test[i,2] for i in range(len(mag_real_test))], dtype=float)
         
 
 dictParameters = open(path_salida_modelo+'normalization_parameters_magnitude_original.json', "r", encoding='utf-8')
@@ -147,7 +148,16 @@ x_test = MyBatchGenerator( X_test_temporal,X_test_global, np.zeros(len(y_test)),
 model = load_model(path_salida_modelo +'/DNN_magnitude_original.h5')
 
 
-y_estimada_test = np.hstack(model.predict(x_test))                  
-    
+y_estimada_test = np.hstack(model.predict(x_test))           
 
+error_mse_test = np.mean(np.square(np.abs(mag_real_test - y_estimada_test)))
+error_test = np.mean(100*np.abs(mag_real_test - y_estimada_test)/mag_real_test)
 
+print('MSE test: {}'.format(np.round(error_mse_test,2)))
+print('%Error test: {}'.format(np.round(error_test,2)))
+
+if True: #Save the results of test
+    import pandas as pd
+    df_test = pd.DataFrame(data= np.transpose([id_test, mag_real_test, y_estimada_test]),
+                            columns=['id_event','Real','Estimation'])
+    df_test.to_csv('results/test_results_magnitude.csv',index=False)
