@@ -287,7 +287,7 @@ if True: #Se guardan los resultados
 
 
     df_train.to_csv('results/train_results_magnitude.csv',index=False)
-    df_val.to_csv('results/val_resuls_magnitude.csv',index=False)
+    df_val.to_csv('results/val_results_magnitude.csv',index=False)
 
     df_loss_train = pd.DataFrame(data=loss_final['loss_train'], columns = ['loss_train'])
     df_loss_val = pd.DataFrame(data=loss_final['loss_val'], columns = ['loss_val'])
