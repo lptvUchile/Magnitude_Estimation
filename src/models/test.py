@@ -33,6 +33,7 @@ path_root =  os.getcwd()
 path_feat =  "../../data/features/"
 path_feat_in_test_temporal = path_feat + 'feat_temporal_test_magnitude.npy'
 path_feat_in_test_global = path_feat + 'feat_global_test_magnitude.npy'
+path_names_in_test = path_feat + 'names_test_magnitude.npy'
 
 #Path where the model was saved
 path_salida_modelo = '../../models/'
@@ -80,7 +81,7 @@ class MyBatchGenerator(Sequence):
 feat_in_test_temporal = np.load(path_feat_in_test_temporal, allow_pickle=True)
 feat_in_test_global = np.load(path_feat_in_test_global, allow_pickle=True)
 
-#mag_real_test = np.load(path_mag_real_test)
+names = np.load(path_names_in_test)
 #id_test = mag_real_test[:,0]
 #mag_real_test = np.array([mag_real_test[i,1] for i in range(len(mag_real_test))],dtype=float)
         
@@ -150,4 +151,8 @@ model = load_model(path_salida_modelo +'/DNN_magnitude_original.h5')
 y_estimada_test = np.hstack(model.predict(x_test))                  
     
 
-
+if False: #Se guardan los resultados
+    import pandas as pd
+    df_train = pd.DataFrame(data= np.transpose([id_train,mag_real_train,y_estimation['Estimacion_train']]),
+                            columns=['id_event','Real','Estimation'])
+    df_train.to_csv('results/train_results_magnitude.csv',index=False)

@@ -61,6 +61,7 @@ def function_features_extration(subset):
         
         feat_por_evento_temporal, feat_por_evento_global = [], []
         magnitud_por_evento, locacion_por_evento = [], {'Evento':[],'Latitud':[],'Longitud':[],'Profundidad':[],'Distancia':[]}
+        names = []
         estaciones = lista_conjunto['Estacion'].values
         if nro_canales ==3:
             canales = {'PB09':['HHZ','HHE','HHN'],'PB06':['HHZ','HHE','HHN'],'AC02':['HHZ','HHE','HHN'],'PB18':['HHZ','HHE','HHN'],
@@ -100,9 +101,9 @@ def function_features_extration(subset):
     
     
                 if sac_k[0].stats.channel[-1] =='Z':
-                    
+                    names.append(lista_eventos[i])
                     if conjunto == 'test': 
-                        estoy_en_Z = 1                        
+                        estoy_en_Z = 1                           
                     elif conjunto == 'train' or conjunto == 'val':
                         magnitud_por_evento.append([lista_eventos[i],float(sac_k[0].stats.sac.mag)])                    
                         lat,lon, depth,dist = sac_k[0].stats.sac.evla,sac_k[0].stats.sac.evlo,sac_k[0].stats.sac.evdp, sac_k[0].stats.sac.dist              
@@ -257,6 +258,7 @@ def function_features_extration(subset):
         ind_random = np.random.permutation(np.arange(0,len(feat_por_evento_temporal)))
         feat_por_evento_temporal = np.array(feat_por_evento_temporal, dtype=object)[ind_random]
         feat_por_evento_global = np.array(feat_por_evento_global, dtype=float)[ind_random]
+        names = list(np.array(names)[ind_random])
         if conjunto == 'train' or conjunto =='val':
             magnitud_por_evento = np.array(magnitud_por_evento)[ind_random]
             locacion_por_evento['Distancia']= list(np.array(locacion_por_evento['Distancia'])[ind_random])
@@ -276,6 +278,7 @@ def function_features_extration(subset):
             print('The features were saved')
             np.save(feat_out+'feat_temporal_'+conjunto+ '_magnitude.npy', feat_por_evento_temporal)
             np.save(feat_out+'feat_global_'+conjunto+ '_magnitude.npy', feat_por_evento_global)
+            np.save(feat_out+'names_'+conjunto+'_magnitude.npy', names)
             
             if conjunto == 'train' or conjunto =='val':
                 print('The target were saved')
