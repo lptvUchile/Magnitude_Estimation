@@ -153,6 +153,6 @@ y_estimada_test = np.hstack(model.predict(x_test))
 
 if False: #Se guardan los resultados
     import pandas as pd
-    df_train = pd.DataFrame(data= np.transpose([id_train,mag_real_train,y_estimation['Estimacion_train']]),
-                            columns=['id_event','Real','Estimation'])
-    df_train.to_csv('results/train_results_magnitude.csv',index=False)
+    df_test= pd.DataFrame(data= np.transpose([names,y_estimada_test]),
+                            columns=['id_event','Estimation'])
+    df_test.to_csv('results/test_results_magnitude.csv',index=False)
